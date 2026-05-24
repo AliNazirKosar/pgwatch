@@ -1,0 +1,22 @@
+# Tipo de objeto Kubernetes — un Service expone el contenedor al exterior
+apiVersion: v1
+kind: Service
+
+metadata:
+  # Nombre del service
+  name: pgwatch-service
+
+spec:
+  # Selector — conecta con los pods que tienen la etiqueta app: pgwatch
+  selector:
+    app: pgwatch
+
+  # Tipo LoadBalancer — expone la API fuera del cluster
+  type: LoadBalancer
+
+  ports:
+    - # Puerto externo — por donde accedes desde el navegador
+      port: 8000
+
+      # Puerto interno — el que usa el contenedor
+      targetPort: 8000

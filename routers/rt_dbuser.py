@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from fastapi import APIRouter, HTTPException, Depends
-from model_in_out.io_dbuser import DbuserIn, DbuserOut
+from model_in_out.io_dbuser import DbuserIn
 from database import get_db
 from models.dbuser import DbUser
 from sqlalchemy.ext.asyncio import AsyncSession

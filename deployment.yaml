@@ -1,0 +1,41 @@
+# Tipo de objeto Kubernetes — un Deployment gestiona los contenedores
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  # Nombre del deployment
+  name: pgwatch-deployment
+
+spec:
+  # Número de copias del contenedor que queremos corriendo
+  replicas: 1
+
+  # Selector para identificar los pods de este deployment
+  selector:
+    matchLabels:
+      app: pgwatch
+
+  template:
+    metadata:
+      # Etiqueta que conecta el deployment con el service
+      labels:
+        app: pgwatch
+
+    spec:
+      containers:
+        - # Nombre del contenedor
+          name: pgwatch
+
+          # Imagen que construiste antes
+          image: pgwatch:v1
+
+          # Puerto que expone el contenedor
+          ports:
+            - containerPort: 8000
+
+          # Variables de entorno — conecta con tu PostgreSQL local
+          env:
+            - name: DATABASE_URL
+              value: "postgresql+asyncpg://postgres:postgres@host.docker.internal:5432/pgwatch"
+            - name: ENCRYPT_KEY
+              value: "37FaMd6XAQ45-joGSYeHNqZRnydmpP4Qda6aT4X5zWE="

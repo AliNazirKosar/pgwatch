@@ -1,0 +1,13 @@
+# PersistentVolumeClaim: reserva espacio en disco para PostgreSQL
+# Sin esto, los datos se pierden cada vez que el pod se reinicia
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc       # nombre con el que el Deployment referenciará este volumen
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce        # un solo pod puede leer y escribir a la vez (suficiente para PostgreSQL)
+  resources:
+    requests:
+      storage: 1Gi         # espacio reservado en disco (1 GB, suficiente para desarrollo local)

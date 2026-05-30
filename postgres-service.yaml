@@ -1,0 +1,14 @@
+# Service: expone PostgreSQL dentro del cluster con un nombre fijo
+# pgwatch se conectará usando el nombre "postgres" en lugar de una IP
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres           # nombre DNS interno, pgwatch usará "postgres" como host
+  namespace: default
+spec:
+  selector:
+    app: postgres          # apunta a los pods con la etiqueta "app: postgres"
+  ports:
+    - port: 5432           # puerto por el que otros pods acceden a PostgreSQL
+      targetPort: 5432     # puerto del contenedor PostgreSQL
+  type: ClusterIP          # solo accesible dentro del cluster, no desde fuera

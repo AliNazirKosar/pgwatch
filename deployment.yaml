@@ -36,6 +36,6 @@ spec:
           # Variables de entorno — conecta con tu PostgreSQL local
           env:
             - name: DATABASE_URL
-              value: "postgresql+asyncpg://postgres:postgres@host.docker.internal:5432/pgwatch"
+              value: "postgresql+asyncpg://postgres:postgres@postgres:5432/pgwatcher"
             - name: ENCRYPT_KEY
               value: "37FaMd6XAQ45-joGSYeHNqZRnydmpP4Qda6aT4X5zWE="

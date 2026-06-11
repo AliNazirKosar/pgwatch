@@ -1,31 +1,28 @@
-# Deployment: gestiona el pod de PostgreSQL
-# Si el pod se cae, Kubernetes lo reinicia automáticamente
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
-  namespace: development
+  namespace: {{ .Values.namespace }}
 spec:
-  replicas: 1              # solo un pod (suficiente para desarrollo local)
+  replicas: 1
   selector:
     matchLabels:
-      app: postgres        # vincula este Deployment con sus pods por la etiqueta "app: postgres"
+      app: postgres
   template:
     metadata:
       labels:
-        app: postgres      # etiqueta que se asigna al pod
+        app: postgres
     spec:
       containers:
         - name: postgres
-          image: postgres:18        # imagen oficial de PostgreSQL 18
+          image: postgres:18
           ports:
-            - containerPort: 5432  # puerto por defecto de PostgreSQL
+            - containerPort: 5432
           env:
-            # Las credenciales se leen del Secret, no están en texto plano aquí
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret  # nombre del Secret que creamos en el paso 1
+                  name: postgres-secret
                   key: POSTGRES_USER
             - name: POSTGRES_PASSWORD
               valueFrom:
@@ -39,8 +36,8 @@ spec:
                   key: POSTGRES_DB
           volumeMounts:
             - name: postgres-storage
-              mountPath: /var/lib/postgresql/ # ruta donde PostgreSQL guarda los datos
+              mountPath: /var/lib/postgresql
       volumes:
         - name: postgres-storage
           persistentVolumeClaim:
-            claimName: postgres-pvc  # el PVC que creamos en el paso 2
+            claimName: postgres-pvc

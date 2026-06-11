@@ -4,7 +4,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: postgres-pvc       # nombre con el que el Deployment referenciará este volumen
-  namespace: default
+  namespace: development
 spec:
   accessModes:
     - ReadWriteOnce        # un solo pod puede leer y escribir a la vez (suficiente para PostgreSQL)

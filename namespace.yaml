@@ -1,0 +1,5 @@
+# Namespace: agrupa todos los recursos del entorno de desarrollo
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: development   # nombre del namespace

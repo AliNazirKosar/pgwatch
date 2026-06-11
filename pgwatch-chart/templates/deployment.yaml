@@ -1,28 +1,21 @@
-# Tipo de objeto Kubernetes — un Deployment gestiona los contenedores
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  # Nombre del deployment
   name: pgwatch-deployment
-  namespace: development   # namespace donde vive este deployment
+  namespace: {{ .Values.namespace }}
 spec:
-  # Número de copias del contenedor que queremos corriendo
   replicas: 1
-  # Selector para identificar los pods de este deployment
   selector:
     matchLabels:
       app: pgwatch
   template:
     metadata:
-      # Etiqueta que conecta el deployment con el service
       labels:
         app: pgwatch
     spec:
-      # initContainers se ejecutan ANTES que el contenedor principal
-      # Si fallan, el pod no arranca
       initContainers:
         - name: migrations
-          image: pgwatch:v1
+          image: {{ .Values.image.name }}:{{ .Values.image.tag }}
           command: ["alembic", "upgrade", "head"]
           env:
             - name: DATABASE_URL
@@ -36,12 +29,10 @@ spec:
                   name: postgres-secret
                   key: ENCRYPT_KEY
       containers:
-        - # Contenedor principal — arranca solo si el initContainer tuvo éxito
-          name: pgwatch
-          image: pgwatch:v1
+        - name: pgwatch
+          image: {{ .Values.image.name }}:{{ .Values.image.tag }}
           ports:
             - containerPort: 8000
-          # Liveness: si falla 3 veces, Kubernetes reinicia el pod
           livenessProbe:
             httpGet:
               path: /health_check
@@ -49,7 +40,6 @@ spec:
             initialDelaySeconds: 15
             periodSeconds: 10
             failureThreshold: 3
-          # Readiness: si falla, deja de enviar tráfico al pod
           readinessProbe:
             httpGet:
               path: /health_check

@@ -1,0 +1,22 @@
+# Variables configurables del chart
+# Estos valores se pueden sobreescribir al instalar el chart
+
+namespace: development
+
+image:
+  name: pgwatch
+  tag: v1
+
+database:
+  host: postgres
+  port: 5432
+  name: pgwatcher
+  user: postgres
+  password: postgres
+
+encryptKey: "37FaMd6XAQ45-joGSYeHNqZRnydmpP4Qda6aT4X5zWE="
+
+service:
+  type: LoadBalancer
+  port: 8000
+  nodePort: 30000

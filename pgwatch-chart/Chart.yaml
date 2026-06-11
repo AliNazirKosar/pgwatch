@@ -1,0 +1,7 @@
+# Información del chart
+apiVersion: v2
+name: pgwatch-chart
+description: API REST para monitorización de servidores de bases de datos
+type: application
+version: 0.1.0        # versión del chart
+appVersion: "1.0.0"   # versión de la aplicación
